@@ -1,0 +1,277 @@
+:root {
+  --ink: #1d3557;
+  --muted: #457b9d;
+  --card: rgba(255, 255, 255, 0.85);
+  --accent: #ff6b6b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #bde0fe;
+  color: var(--ink);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.game-root {
+  position: fixed;
+  inset: 0;
+  touch-action: none;
+}
+
+.loading {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  font-size: 1.2rem;
+}
+
+/* ---------- HUD ---------- */
+
+.hud {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hud-card {
+  position: absolute;
+  pointer-events: auto;
+  background: var(--card);
+  backdrop-filter: blur(6px);
+  border-radius: 14px;
+  padding: 12px 16px;
+  box-shadow: 0 6px 20px rgba(29, 53, 87, 0.12);
+}
+
+.hud-title {
+  top: 16px;
+  left: 16px;
+  max-width: min(360px, calc(100vw - 150px));
+}
+
+.hud-title h1 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.hud-title p {
+  margin: 2px 0 8px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.hud-title nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hud-title a,
+.hud-title button {
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid #d8e2ef;
+  border-radius: 999px;
+  padding: 4px 10px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.hud-status {
+  top: 16px;
+  right: 16px;
+  text-align: right;
+}
+
+.hud-timer {
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.hud-timer.urgent {
+  color: var(--accent);
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.hud-small {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.hud-info {
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  width: min(420px, calc(100vw - 32px));
+  border-left: 6px solid;
+}
+
+.hud-info h2 {
+  margin: 2px 0;
+  font-size: 1.1rem;
+}
+
+.hud-info p {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  max-height: 8em;
+  overflow: auto;
+  white-space: pre-line;
+}
+
+.hud-help {
+  left: 16px;
+  bottom: 16px;
+  font-size: 0.8rem;
+}
+
+/* ---------- Plain CV modal ---------- */
+
+.cv-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(29, 53, 87, 0.4);
+  display: grid;
+  place-items: center;
+  pointer-events: auto;
+  padding: 16px;
+}
+
+.cv {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  max-width: 720px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+  padding: 28px 32px;
+}
+
+.cv h1 {
+  margin: 0;
+}
+
+.cv-headline {
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.cv h2 {
+  margin-top: 28px;
+  border-bottom: 2px solid #eef3f8;
+  padding-bottom: 4px;
+}
+
+.cv h3 {
+  margin: 16px 0 2px;
+  font-size: 1rem;
+}
+
+.cv p {
+  white-space: pre-line;
+}
+
+.cv-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.cv-skills li {
+  background: #eef3f8;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 0.85rem;
+}
+
+.cv-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  border: 0;
+  background: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+/* ---------- Touch controls ---------- */
+
+.touch {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .hud-help {
+    display: none;
+  }
+
+  .hud-info {
+    bottom: 170px;
+  }
+
+  .touch {
+    display: block;
+  }
+
+  .touch-stick {
+    position: fixed;
+    left: 24px;
+    bottom: 24px;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    display: grid;
+    place-items: center;
+    touch-action: none;
+  }
+
+  .touch-knob {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--ink);
+    opacity: 0.75;
+  }
+
+  .touch-buttons {
+    position: fixed;
+    right: 24px;
+    bottom: 32px;
+    display: flex;
+    gap: 12px;
+  }
+
+  .touch-buttons button {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 0;
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--ink);
+    font: inherit;
+    font-weight: 600;
+    touch-action: none;
+  }
+}

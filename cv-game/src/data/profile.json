@@ -1,0 +1,43 @@
+{
+  "_note": "PLACEHOLDER DATA. Replace by running `npm run import-linkedin -- <path-to-linkedin-export-folder>` or edit by hand.",
+  "name": "Your Name",
+  "headline": "Software Engineer",
+  "summary": "Short summary from your LinkedIn About section.",
+  "links": [
+    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/your-handle" },
+    { "label": "GitHub", "url": "https://github.com/your-handle" }
+  ],
+  "experience": [
+    {
+      "company": "Company A",
+      "title": "Senior Engineer",
+      "start": "2022-01",
+      "end": null,
+      "location": "Remote",
+      "description": "What you built and the impact it had."
+    },
+    {
+      "company": "Company B",
+      "title": "Engineer",
+      "start": "2019-03",
+      "end": "2021-12",
+      "location": "City",
+      "description": "What you built and the impact it had."
+    }
+  ],
+  "education": [
+    { "school": "University", "degree": "B.Sc. Computer Science", "start": "2015", "end": "2019" }
+  ],
+  "skills": [
+    { "name": "TypeScript", "weight": 5 },
+    { "name": "React", "weight": 5 },
+    { "name": "Node.js", "weight": 4 },
+    { "name": "Next.js", "weight": 3 },
+    { "name": "SQL", "weight": 3 },
+    { "name": "Three.js", "weight": 2 },
+    { "name": "CSS", "weight": 3 },
+    { "name": "Testing", "weight": 2 },
+    { "name": "CI/CD", "weight": 2 },
+    { "name": "Leadership", "weight": 3 }
+  ]
+}
