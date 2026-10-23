@@ -9,11 +9,17 @@ type Props = {
   /** null when multiplayer isn’t configured. */
   online: number | null;
   nearBlock: string | null;
+  /** Lets the game hide touch controls while the CV is open. */
+  onCvToggle: (open: boolean) => void;
 };
 
-export function Hud({ online, nearBlock }: Props) {
+export function Hud({ online, nearBlock, onCvToggle }: Props) {
   const [left, setLeft] = useState<number | null>(null);
-  const [cvOpen, setCvOpen] = useState(false);
+  const [cvOpen, setCvOpenState] = useState(false);
+  const setCvOpen = (open: boolean) => {
+    setCvOpenState(open);
+    onCvToggle(open);
+  };
 
   useEffect(() => {
     const update = () => setLeft(msUntilReset());
@@ -46,7 +52,7 @@ export function Hud({ online, nearBlock }: Props) {
         <div className={secs !== null && secs <= 30 ? "hud-timer urgent" : "hud-timer"}>
           {secs === null ? "--:--" : `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, "0")}`}
         </div>
-        <div className="hud-small">until everything resets</div>
+        <div className="hud-small">until reset</div>
         {online !== null && <div className="hud-small">{online} robot{online === 1 ? "" : "s"} online</div>}
       </div>
 

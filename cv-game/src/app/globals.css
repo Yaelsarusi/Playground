@@ -217,17 +217,94 @@ body {
 
 /* ---------- Touch controls ---------- */
 
+:root {
+  --safe-top: max(16px, env(safe-area-inset-top));
+  --safe-right: max(16px, env(safe-area-inset-right));
+  --safe-bottom: max(16px, env(safe-area-inset-bottom));
+  --safe-left: max(16px, env(safe-area-inset-left));
+}
+
+.hud,
+.touch {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.hud-title {
+  top: var(--safe-top);
+  left: var(--safe-left);
+}
+
+.hud-status {
+  top: var(--safe-top);
+  right: var(--safe-right);
+}
+
+.cv-backdrop {
+  z-index: 10;
+}
+
 .touch {
   display: none;
+}
+
+/* Small screens: compact HUD so the cards don’t collide. */
+@media (max-width: 640px), (max-height: 500px) {
+  .hud-card {
+    padding: 8px 12px;
+    border-radius: 12px;
+  }
+
+  .hud-title {
+    max-width: calc(100vw - var(--safe-left) - var(--safe-right) - 110px);
+  }
+
+  .hud-title h1 {
+    font-size: 1rem;
+  }
+
+  .hud-title p {
+    font-size: 0.8rem;
+    margin-bottom: 6px;
+  }
+
+  .hud-title nav {
+    gap: 6px;
+  }
+
+  .hud-title a,
+  .hud-title button {
+    padding: 3px 8px;
+    font-size: 0.75rem;
+  }
+
+  .hud-status {
+    min-width: 96px;
+  }
+
+  .hud-timer {
+    font-size: 1.25rem;
+  }
+
+  .hud-info h2 {
+    font-size: 1rem;
+  }
+
+  .hud-info p {
+    font-size: 0.85rem;
+    max-height: 4.5em;
+  }
+
+  .cv {
+    padding: 20px;
+    max-height: calc(100dvh - 32px);
+  }
 }
 
 @media (pointer: coarse) {
   .hud-help {
     display: none;
-  }
-
-  .hud-info {
-    bottom: 170px;
   }
 
   .touch {
@@ -236,8 +313,8 @@ body {
 
   .touch-stick {
     position: fixed;
-    left: 24px;
-    bottom: 24px;
+    left: calc(var(--safe-left) + 8px);
+    bottom: calc(var(--safe-bottom) + 8px);
     width: 130px;
     height: 130px;
     border-radius: 50%;
@@ -257,8 +334,8 @@ body {
 
   .touch-buttons {
     position: fixed;
-    right: 24px;
-    bottom: 32px;
+    right: calc(var(--safe-right) + 8px);
+    bottom: calc(var(--safe-bottom) + 16px);
     display: flex;
     gap: 12px;
   }
@@ -273,5 +350,24 @@ body {
     font: inherit;
     font-weight: 600;
     touch-action: none;
+  }
+
+  .touch-buttons button:active {
+    background: #fff;
+    transform: scale(0.94);
+  }
+
+  /* Info card sits above the controls in portrait… */
+  .hud-info {
+    bottom: calc(var(--safe-bottom) + 160px);
+  }
+}
+
+/* …and between them in landscape. */
+@media (pointer: coarse) and (orientation: landscape) {
+  .hud-info {
+    bottom: var(--safe-bottom);
+    width: calc(100vw - 2 * (var(--safe-left) + 180px));
+    max-width: 420px;
   }
 }

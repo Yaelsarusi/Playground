@@ -32,6 +32,9 @@ export default function Game() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [round, setRound] = useState(currentRound);
   const [nearBlock, setNearBlock] = useState<string | null>(null);
+  const [cvOpen, setCvOpen] = useState(false);
+  // Phones: fewer pixels and a smaller shadow map keep the frame rate up.
+  const [isTouch] = useState(() => window.matchMedia("(pointer: coarse)").matches);
 
   useEffect(() => bindKeyboard(), []);
 
@@ -52,7 +55,7 @@ export default function Game() {
 
   return (
     <>
-      <Canvas shadows camera={{ position: [0, 9, 15], fov: 50 }} dpr={[1, 2]}>
+      <Canvas shadows camera={{ position: [0, 9, 15], fov: 50 }} dpr={isTouch ? [1, 1.5] : [1, 2]}>
         <color attach="background" args={["#bde0fe"]} />
         <fog attach="fog" args={["#bde0fe", 30, 60]} />
         <hemisphereLight args={["#ffffff", "#f6efe4", 1.2]} />
@@ -60,7 +63,7 @@ export default function Game() {
           position={[10, 18, 8]}
           intensity={2}
           castShadow
-          shadow-mapSize={[2048, 2048]}
+          shadow-mapSize={isTouch ? [1024, 1024] : [2048, 2048]}
           shadow-camera-left={-22}
           shadow-camera-right={22}
           shadow-camera-top={22}
@@ -70,8 +73,8 @@ export default function Game() {
           <World key={round} round={round} me={me} net={net} players={players} nearBlock={nearBlock} onNearBlock={setNearBlock} />
         </Suspense>
       </Canvas>
-      <Hud online={net ? Math.max(1, players.length) : null} nearBlock={nearBlock} />
-      <TouchControls />
+      <Hud online={net ? Math.max(1, players.length) : null} nearBlock={nearBlock} onCvToggle={setCvOpen} />
+      {!cvOpen && <TouchControls />}
     </>
   );
 }

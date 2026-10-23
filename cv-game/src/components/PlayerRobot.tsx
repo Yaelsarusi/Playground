@@ -35,7 +35,7 @@ export function PlayerRobot({ player, sync, onNearBlock }: Props) {
   const { world, rapier } = useRapier();
   const camTarget = useRef(new Vector3());
 
-  useFrame(({ camera, clock }, dt) => {
+  useFrame(({ camera, clock, size }, dt) => {
     const rb = body.current;
     if (!rb) return;
     const now = clock.elapsedTime;
@@ -88,7 +88,10 @@ export function PlayerRobot({ player, sync, onNearBlock }: Props) {
     }
 
     // Follow camera
-    camTarget.current.set(pos.x, pos.y, pos.z).add(CAMERA_OFFSET);
+    // Narrow (portrait) screens see less of the arena sideways, so pull the camera back.
+    const aspect = size.width / size.height;
+    const zoomOut = aspect < 1 ? Math.min(1.8, 0.75 / aspect + 0.25) : 1;
+    camTarget.current.copy(CAMERA_OFFSET).multiplyScalar(zoomOut).add(pos);
     camera.position.lerp(camTarget.current, 1 - Math.exp(-dt * 4));
     camera.lookAt(pos.x, pos.y + 1, pos.z);
 
